@@ -67,7 +67,8 @@ export default {
       },
       video: {},
       canvas: {},
-      captures: []
+      captures: [],
+      mediaConfig: { video: true }
     };
   },
   mounted() {
@@ -93,6 +94,36 @@ export default {
           this.video.srcObject = stream;
           this.video.play();
         });
+    } else if (navigator.getUserMedia) {
+      // Standard
+      navigator.getUserMedia(
+        this.mediaConfig,
+        function(stream) {
+          this.video.src = stream;
+          this.video.play();
+        },
+        this.errBack()
+      );
+    } else if (navigator.webkitGetUserMedia) {
+      // WebKit-prefixed
+      navigator.webkitGetUserMedia(
+        this.mediaConfig,
+        function(stream) {
+          this.video.src = window.webkitURL.createObjectURL(stream);
+          this.video.play();
+        },
+        this.errBack()
+      );
+    } else if (navigator.mozGetUserMedia) {
+      // Mozilla-prefixed
+      navigator.mozGetUserMedia(
+        this.mediaConfig,
+        function(stream) {
+          this.video.src = window.URL.createObjectURL(stream);
+          this.video.play();
+        },
+        this.errBack()
+      );
     }
   },
   methods: {
@@ -100,6 +131,9 @@ export default {
       this.canvas = this.$refs.canvas;
       this.canvas.getContext('2d').drawImage(this.video, 0, 0, 640, 480);
       this.captures.push(this.canvas.toDataURL('image/png'));
+    },
+    errBack() {
+      console.log('An error has occurred!');
     }
   }
 };
