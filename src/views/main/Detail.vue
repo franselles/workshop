@@ -72,7 +72,7 @@ export default {
   },
   mounted() {
     this.video = this.$refs.video;
-    console.log(this.video);
+    // console.log(this.video);
     // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
     //   navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
     //     this.video.src = window.URL.createObjectURL(stream);
