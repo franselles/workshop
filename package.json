@@ -1,6 +1,6 @@
 {
   "name": "wheeler-fire-91900",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
     "mongoose": "^5.9.1",
