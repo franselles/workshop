@@ -34,12 +34,12 @@
       </div>
     </div>
 
-    <video ref="video" id="video" width="50px" height="50px"></video>
+    <video ref="video" id="video" width="220px" height="480px"></video>
     <div>
       <button @click="capture">CAPTURA</button>
     </div>
     <div>
-      <canvas ref="canvas" id="canvas" width="50px" height="50px" />
+      <canvas ref="canvas" id="canvas" width="220px" height="480px" />
     </div>
   </div>
 </template>
@@ -69,18 +69,20 @@ export default {
     this.video = this.$refs.video;
 
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        // this.video.src = window.URL.createObjectURL(stream);
-        this.video.srcObject = stream;
-        console.log(this.video);
-        this.video.play();
-      });
+      navigator.mediaDevices
+        .getUserMedia({ video: { facingMode: { exact: 'environment' } } })
+        .then(stream => {
+          // this.video.src = window.URL.createObjectURL(stream);
+          this.video.srcObject = stream;
+          console.log(this.video);
+          this.video.play();
+        });
     }
   },
   methods: {
     capture() {
       this.canvas = this.$refs.canvas;
-      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 50, 50);
+      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 220, 480);
       this.captures.push(this.canvas.toDataURL('image/png'));
     }
   }
