@@ -36,7 +36,7 @@
 
     <div>
       <div>
-        <video ref="video" id="video" width="640" height="480" autoplay></video>
+        <video ref="video" id="video" width="480" height="640" autoplay></video>
       </div>
       <div><button id="snap" @click="capture()">Snap Photo</button></div>
       <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
@@ -72,11 +72,27 @@ export default {
   },
   mounted() {
     this.video = this.$refs.video;
+    console.log(this.video);
+    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    //   navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+    //     this.video.src = window.URL.createObjectURL(stream);
+    //     this.video.play();
+    //   });
+    // }
+
+    // Grab elements, create settings, etc.
+    // var video = document.getElementById('video');
+
+    // Get access to the camera!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-        this.video.src = window.URL.createObjectURL(stream);
-        this.video.play();
-      });
+      // Not adding `{ audio: true }` since we only want video now
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then(function(stream) {
+          //video.src = window.URL.createObjectURL(stream);
+          this.video.srcObject = stream;
+          this.video.play();
+        });
     }
   },
   methods: {
