@@ -41,6 +41,12 @@
     <div>
       <canvas ref="canvas" id="canvas" width="220px" height="480px" />
     </div>
+    <div>
+      <input type="file" accept="image/*" @change="onChange" />
+    </div>
+    <div>
+      {{ item }}
+    </div>
   </div>
 </template>
 
@@ -62,7 +68,11 @@ export default {
       },
       video: {},
       canvas: {},
-      captures: []
+      captures: [],
+      item: {
+        image: null,
+        imageUrl: null
+      }
     };
   },
   mounted() {
@@ -84,6 +94,11 @@ export default {
       this.canvas = this.$refs.canvas;
       this.canvas.getContext('2d').drawImage(this.video, 0, 0, 220, 480);
       this.captures.push(this.canvas.toDataURL('image/png'));
+    },
+    onChange(e) {
+      const file = e.target.files[0];
+      this.image = file;
+      this.item.imageUrl = URL.createObjectURL(file);
     }
   }
 };
