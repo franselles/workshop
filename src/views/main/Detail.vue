@@ -82,11 +82,8 @@ export default {
   methods: {
     capture() {
       this.canvas = this.$refs.canvas;
-      let context = this.canvas
-        .getContext('2d')
-        .drawImage(this.video, 0, 0, 640, 480);
+      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 640, 480);
       this.captures.push(this.canvas.toDataURL('image/png'));
-      console.log(context);
     }
   }
 };
