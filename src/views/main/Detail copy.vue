@@ -34,17 +34,15 @@
       </div>
     </div>
 
+    <video ref="video" id="video" width="220px" height="480px"></video>
     <div>
-      <div>
-        <video ref="video" id="video" width="480" height="640" autoplay></video>
-      </div>
-      <div><button id="snap" @click="capture()">Snap Photo</button></div>
-      <canvas ref="canvas" id="canvas" width="640" height="480"></canvas>
-      <ul>
-        <li v-for="c in captures" :key="c.index">
-          <img :src="c" height="50" />
-        </li>
-      </ul>
+      <button @click="capture">CAPTURA</button>
+    </div>
+    <div>
+      <canvas ref="canvas" id="canvas" width="220px" height="480px" />
+    </div>
+    <div>
+      {{ captures }}
     </div>
   </div>
 </template>
@@ -67,73 +65,28 @@ export default {
       },
       video: {},
       canvas: {},
-      captures: [],
-      mediaConfig: { video: true }
+      captures: []
     };
   },
   mounted() {
     this.video = this.$refs.video;
-    // console.log(this.video);
-    // if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    //   navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-    //     this.video.src = window.URL.createObjectURL(stream);
-    //     this.video.play();
-    //   });
-    // }
 
-    // Grab elements, create settings, etc.
-    // var video = document.getElementById('video');
-
-    // Get access to the camera!
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      // Not adding `{ audio: true }` since we only want video now
       navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then(function(stream) {
-          //video.src = window.URL.createObjectURL(stream);
+        .getUserMedia({ video: { facingMode: { exact: 'environment' } } })
+        .then(stream => {
+          // this.video.src = window.URL.createObjectURL(stream);
           this.video.srcObject = stream;
+          console.log(this.video);
           this.video.play();
         });
-    } else if (navigator.getUserMedia) {
-      // Standard
-      navigator.getUserMedia(
-        this.mediaConfig,
-        function(stream) {
-          this.video.src = stream;
-          this.video.play();
-        },
-        this.errBack()
-      );
-    } else if (navigator.webkitGetUserMedia) {
-      // WebKit-prefixed
-      navigator.webkitGetUserMedia(
-        this.mediaConfig,
-        function(stream) {
-          this.video.src = window.webkitURL.createObjectURL(stream);
-          this.video.play();
-        },
-        this.errBack()
-      );
-    } else if (navigator.mozGetUserMedia) {
-      // Mozilla-prefixed
-      navigator.mozGetUserMedia(
-        this.mediaConfig,
-        function(stream) {
-          this.video.src = window.URL.createObjectURL(stream);
-          this.video.play();
-        },
-        this.errBack()
-      );
     }
   },
   methods: {
     capture() {
       this.canvas = this.$refs.canvas;
-      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 640, 480);
+      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 220, 480);
       this.captures.push(this.canvas.toDataURL('image/png'));
-    },
-    errBack() {
-      console.log('An error has occurred!');
     }
   }
 };
@@ -142,9 +95,6 @@ export default {
 <style scoped>
 #video {
   background-color: #000000;
-}
-#canvas {
-  display: none;
 }
 li {
   display: inline;

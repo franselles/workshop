@@ -33,16 +33,12 @@
         </form>
       </div>
     </div>
+    <div>
+      <input type="file" @change="onFileChange" />
+    </div>
 
-    <video ref="video" id="video" width="220px" height="480px"></video>
-    <div>
-      <button @click="capture">CAPTURA</button>
-    </div>
-    <div>
-      <canvas ref="canvas" id="canvas" width="220px" height="480px" />
-    </div>
-    <div>
-      {{ captures }}
+    <div id="preview">
+      <img v-if="url" :src="url" />
     </div>
   </div>
 </template>
@@ -63,41 +59,28 @@ export default {
         finished: null,
         images: []
       },
-      video: {},
-      canvas: {},
-      captures: []
+      url: null
     };
   },
-  mounted() {
-    this.video = this.$refs.video;
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ video: { facingMode: { exact: 'environment' } } })
-        .then(stream => {
-          // this.video.src = window.URL.createObjectURL(stream);
-          this.video.srcObject = stream;
-          console.log(this.video);
-          this.video.play();
-        });
-    }
-  },
+  mounted() {},
   methods: {
-    capture() {
-      this.canvas = this.$refs.canvas;
-      this.canvas.getContext('2d').drawImage(this.video, 0, 0, 220, 480);
-      this.captures.push(this.canvas.toDataURL('image/png'));
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.url = URL.createObjectURL(file);
     }
   }
 };
 </script>
 
 <style scoped>
-#video {
-  background-color: #000000;
+#preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-li {
-  display: inline;
-  padding: 5px;
+
+#preview img {
+  max-width: 100%;
+  max-height: 500px;
 }
 </style>
