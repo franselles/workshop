@@ -34,11 +34,25 @@
       </div>
     </div>
     <div>
-      <input type="file" @change="onFileChange" />
+      <input ref="file" type="file" id="file" @change="onFileChange" />
     </div>
 
-    <div id="preview">
-      <img v-if="url" :src="url" />
+    <div>
+      <ul>
+        <li v-for="image in part.images" :key="image.index">
+          <div id="preview">
+            <div>
+              <img :src="image.url" width="100px" height="auto" class="thumb" />
+            </div>
+            <div>
+              {{ image.name }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div>
+      <button @click="clickButton">CAMERA</button>
     </div>
   </div>
 </template>
@@ -58,15 +72,24 @@ export default {
         closed: null,
         finished: null,
         images: []
-      },
-      url: null
+      }
     };
   },
   mounted() {},
   methods: {
     onFileChange(e) {
+      let images = {
+        name: null,
+        url: null
+      };
+
       const file = e.target.files[0];
-      this.url = URL.createObjectURL(file);
+      images.name = file.name;
+      images.url = URL.createObjectURL(file);
+      this.part.images.push(images);
+    },
+    clickButton() {
+      this.$refs.file.click();
     }
   }
 };
@@ -74,7 +97,7 @@ export default {
 
 <style scoped>
 #preview {
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
 }
@@ -82,5 +105,13 @@ export default {
 #preview img {
   max-width: 100%;
   max-height: 500px;
+}
+
+#file {
+  display: none;
+}
+
+.thumb {
+  padding: 10px;
 }
 </style>
