@@ -51,6 +51,9 @@
         </li>
       </ul>
     </div>
+    <div v-if="waitImage">
+      PROCESANDO LA IMAGEN ESPERA
+    </div>
     <div>
       <button @click="clickButton">CAMERA</button>
     </div>
@@ -74,7 +77,8 @@ export default {
         closed: null,
         finished: null,
         images: []
-      }
+      },
+      waitImage: false
     };
   },
   mounted() {},
@@ -95,10 +99,12 @@ export default {
           // images.url = URL.createObjectURL(file);
           images.url = result.thumb.url;
           this.part.images.push(images);
+          this.waitImage = false;
         });
       });
     },
     clickButton() {
+      this.waitImage = true;
       this.$refs.file.click();
     },
     getBase64(file) {
