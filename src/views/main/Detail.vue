@@ -173,10 +173,8 @@ export default {
         id: null,
         image_name: null,
         image_url: null,
-        image_extension: null,
         thumb_name: null,
         thumb_url: null,
-        thumb_extension: null,
         delete_url: null
       };
 
@@ -188,10 +186,8 @@ export default {
           image.id = result.id;
           image.image_name = result.image.name;
           image.image_url = result.image.url;
-          image.image_extension = result.image.extension;
           image.thumb_name = result.thumb.name;
           image.thumb_url = result.thumb.url;
-          image.thumb_extension = result.thumb.extension;
           image.delete_url = result.delete_url;
           this.localOrder.images.push(image);
           this.waitImage = false;
