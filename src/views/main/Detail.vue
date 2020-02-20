@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
   name: 'Detail',
   data() {
@@ -77,6 +79,7 @@ export default {
   },
   mounted() {},
   methods: {
+    ...mapActions('workshopStore', ['postImage']),
     onFileChange(e) {
       let images = {
         name: null,
@@ -84,12 +87,33 @@ export default {
       };
 
       const file = e.target.files[0];
-      images.name = file.name;
-      images.url = URL.createObjectURL(file);
-      this.part.images.push(images);
+      // console.log(file);
+      this.getBase64(file).then(data => {
+        this.postImage({ name: file.name, data: data }).then(result => {
+          console.log(result);
+          images.name = result.id;
+          // images.url = URL.createObjectURL(file);
+          images.url = result.thumb.url;
+          this.part.images.push(images);
+        });
+      });
     },
     clickButton() {
       this.$refs.file.click();
+    },
+    getBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          let encoded = reader.result.toString().replace(/^data:(.*,)?/, '');
+          if (encoded.length % 4 > 0) {
+            encoded += '='.repeat(4 - (encoded.length % 4));
+          }
+          resolve(encoded);
+        };
+        reader.onerror = error => reject(error);
+      });
     }
   }
 };
