@@ -188,7 +188,7 @@ export default {
           image.id = result.id;
           image.image_name = result.image.name;
           image.image_url = result.image.url;
-          image.image_extension = result.imege.extension;
+          image.image_extension = result.image.extension;
           image.thumb_name = result.thumb.name;
           image.thumb_url = result.thumb.url;
           image.thumb_extension = result.thumb.extension;
