@@ -19,10 +19,37 @@ function getWorkshopOrder(req, res) {
   });
 }
 
+function getWorkshopOrders(req, res) {
+  let state = req.params.state;
+
+  WorkshopOrdersModel.find({ closed: state }).exec((err, doc) => {
+    if (err)
+      return res.status(500).send({
+        message: `Error al realizar la petición: ${err}`
+      });
+    if (!doc)
+      return res.status(404).send({
+        message: 'No existe'
+      });
+
+    res.status(200).send(doc);
+  });
+}
+
 function postWorkshopOrder(req, res) {
   const data = new WorkshopOrdersModel();
 
   data.date = req.body.date;
+  data.fault = req.body.fault;
+  data.vehicle_id = req.body.vehicle_id;
+  data.vehicle = req.body.vehicle;
+  data.license_plate = req.body.license_plate;
+  data.price = req.body.price;
+  data.hours = req.body.hours;
+  data.materials = req.body.materials;
+  data.closed = req.body.closed;
+  data.finished = req.body.finished;
+  data.images = req.body.images;
 
   data.save((err, docStored) => {
     if (err)
@@ -63,6 +90,7 @@ function deleteWorkshopOrder(req, res) {
 
 module.exports = {
   getWorkshopOrder,
+  getWorkshopOrders,
   postWorkshopOrder,
   putWorkshopOrder,
   deleteWorkshopOrder

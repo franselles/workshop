@@ -3,6 +3,21 @@
 const VehiclesModel = require('../models/vehicles_model');
 
 function getVehicles(req, res) {
+  VehiclesModel.find().exec((err, doc) => {
+    if (err)
+      return res.status(500).send({
+        message: `Error al realizar la petición: ${err}`
+      });
+    if (!doc)
+      return res.status(404).send({
+        message: 'No existe'
+      });
+
+    res.status(200).send(doc);
+  });
+}
+
+function getVehicle(req, res) {
   let id = req.params.id;
 
   VehiclesModel.findById(id).exec((err, doc) => {
@@ -62,6 +77,7 @@ function deleteVehicle(req, res) {
 }
 
 module.exports = {
+  getVehicle,
   getVehicles,
   postVehicle,
   putVehicle,

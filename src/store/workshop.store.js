@@ -2,11 +2,67 @@ import Vue from 'vue';
 
 export default {
   namespaced: true,
-  state: {},
-  mutations: {},
+  state: {
+    urlImgBb: 'https://api.imgbb.com/1/upload',
+    urlApi: '/api/', // http://localhost:8080/api/    // /api/
+    order: {
+      _id: null,
+      date: null,
+      fault: null,
+      vehicle_id: null,
+      vehicle: null,
+      license_plate: null,
+      price: null,
+      hours: null,
+      materials: Number,
+      closed: false,
+      finished: false,
+      images: []
+    },
+    orders: [],
+    vehicles: []
+  },
+  mutations: {
+    resetOrder(state) {
+      state.order._id = null;
+      state.order.date = null;
+      state.order.fault = null;
+      state.order.vehicle_id = null;
+      state.order.vehicle = null;
+      state.order.license_plate = null;
+      state.order.price = null;
+      state.order.hours = null;
+      state.order.materials = null;
+      state.order.closed = false;
+      state.order.finished = false;
+      state.order.images = [];
+    },
+    setVehicles(state, payload) {
+      state.vehicles = payload;
+    },
+    setOrder(state, payload) {
+      state.order._id = payload._id;
+      state.order.date = payload.date;
+      state.order.fault = payload.fault;
+      state.order.vehicle_id = payload.vehicle_id;
+      state.order.vehicle = payload.vehicle;
+      state.order.license_plate = payload.license_plate;
+      state.order.price = payload.price;
+      state.order.hours = payload.hours;
+      state.order.materials = payload.materials;
+      state.order.closed = payload.closed;
+      state.order.finished = payload.finished;
+      state.order.images = payload.images;
+    },
+    setOrders(state, payload) {
+      state.orders = payload;
+    },
+    setImagesOrder(state, payload) {
+      state.order.images.push(payload);
+    }
+  },
   actions: {
-    // eslint-disable-next-line no-empty-pattern
-    async postImage({}, payload) {
+    async postImage(context, payload) {
       let formData = new FormData();
       formData.append('key', 'f3289a4706c9d456ecda5be82225c7f3');
       formData.append('image', payload.data);
@@ -28,23 +84,73 @@ export default {
         console.log(e.response.status);
         console.log(e.response.headers);
       } finally {
-        console.log('La petición para crear creacion ha finalizado');
+        console.log('La petición para crear los datos ha finalizado');
       }
     },
-    async getImages({ commit }) {
+    async postOrder({ state }, payload) {
+      try {
+        const result = await Vue.axios({
+          method: 'post',
+          url: state.urlApi + 'workshop/order',
+          data: payload
+        });
+        return result;
+      } catch (e) {
+        console.log(e.message);
+        console.log(e.response.data);
+        console.log(e.response.status);
+        console.log(e.response.headers);
+      } finally {
+        console.log('La petición para crear los datos ha finalizado');
+      }
+    },
+    async putOrder({ state }, payload) {
+      try {
+        const result = await Vue.axios({
+          method: 'put',
+          url: state.urlApi + `workshop/order/${payload._id}`,
+          data: payload
+        });
+        return result;
+      } catch (e) {
+        console.log(e.message);
+        console.log(e.response.data);
+        console.log(e.response.status);
+        console.log(e.response.headers);
+      } finally {
+        console.log('La petición para actualizar los datos ha finalizado');
+      }
+    },
+    async getVehicles({ commit, state }) {
       try {
         const { data } = await Vue.axios({
           method: 'get',
-          url: '/horarios/secciones'
+          url: state.urlApi + 'workshop/vehicles'
         });
-        commit('setSecciones', data);
+        commit('setVehicles', data);
       } catch (e) {
         console.log('todosError', e.message);
         console.log(e.response.data);
         console.log(e.response.status);
         console.log(e.response.headers);
       } finally {
-        console.log('La petición para obtener las secciones ha finalizado');
+        console.log('La petición para obtener los datos ha finalizado');
+      }
+    },
+    async getOrders({ commit, state }, payload) {
+      try {
+        const { data } = await Vue.axios({
+          method: 'get',
+          url: state.urlApi + `workshop/orders/${payload}`
+        });
+        commit('setOrders', data);
+      } catch (e) {
+        console.log('todosError', e.message);
+        console.log(e.response.data);
+        console.log(e.response.status);
+        console.log(e.response.headers);
+      } finally {
+        console.log('La petición para obtener los daros ha finalizado');
       }
     }
   },
