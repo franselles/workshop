@@ -4,7 +4,7 @@
       <h3>VISUALIZAR IMAGEN</h3>
     </div>
     <div>
-      <img :src="url_img.image_url" />
+      <img :src="url_img.image_url" width="100%" height="auto" />
     </div>
     <div>
       <button type="button" @click="backDetail">VOLVER</button>
