@@ -17,7 +17,7 @@
                   v-model="pin"
                 />
                 <button type="submit">Acceder</button>
-                <a href="#">0.1.22</a>
+                <a href="#">0.1.23</a>
               </form>
             </div>
           </div>
