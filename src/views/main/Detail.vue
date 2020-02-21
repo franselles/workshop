@@ -91,7 +91,10 @@
 
           <div>
             <ul>
-              <li v-for="image in localOrder.images" :key="image.index">
+              <li
+                v-for="(image, index) in localOrder.images"
+                :key="image.index"
+              >
                 <div id="preview">
                   <div>
                     <img
@@ -104,6 +107,12 @@
                   <div>
                     {{ image.image_name }}
                   </div>
+                </div>
+                <div>
+                  <button type="button" @click="deleteLocalImage(image, index)">
+                    BORRAR
+                  </button>
+                  <button type="button" @click="showImage(image)">VER</button>
                 </div>
               </li>
             </ul>
@@ -165,9 +174,10 @@ export default {
       'getVehicles',
       'postOrder',
       'putOrder',
-      'getOrders'
+      'getOrders',
+      'deleteImage'
     ]),
-    ...mapMutations('workshopStore', ['setOrder']),
+    ...mapMutations('workshopStore', ['setOrder', 'setCurrentImage']),
     onFileChange(e) {
       let image = {
         id: null,
@@ -179,10 +189,8 @@ export default {
       };
 
       const file = e.target.files[0];
-      // console.log(file);
       this.getBase64(file).then(data => {
         this.postImage({ name: file.name, data: data }).then(result => {
-          console.log(result);
           image.id = result.id;
           image.image_name = result.image.name;
           image.image_url = result.image.url;
@@ -239,6 +247,19 @@ export default {
     },
     onCancel() {
       this.$router.go(-1);
+    },
+    deleteLocalImage(data, index) {
+      this.localOrder.images.splice(index, 1);
+      // this.deleteImage(data.delete_url).then(result => {
+      //   console.log(result);
+      //   this.localOrder.images.splice(index, 1);
+      // });
+    },
+    showImage(data) {
+      console.log(data);
+      this.setOrder(this.localOrder);
+      this.setCurrentImage(data);
+      this.$router.push({ name: 'showimage' });
     }
   }
 };

@@ -26,5 +26,11 @@ export default [
     name: 'detail',
     component: () => import('@/views/main/Detail.vue'),
     meta: { requiresAuth: true }
+  },
+  {
+    path: '/showimage',
+    name: 'showimage',
+    component: () => import('@/views/main/ShowImage.vue'),
+    meta: { requiresAuth: true }
   }
 ];

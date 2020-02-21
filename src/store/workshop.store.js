@@ -19,6 +19,7 @@ export default {
       finished: false,
       images: []
     },
+    currentImage: null,
     orders: [],
     vehicles: []
   },
@@ -59,6 +60,9 @@ export default {
     },
     setImagesOrder(state, payload) {
       state.order.images.push(payload);
+    },
+    setCurrentImage(state, payload) {
+      state.currentImage = payload;
     }
   },
   actions: {
@@ -85,6 +89,25 @@ export default {
         console.log(e.response.headers);
       } finally {
         console.log('La petición para crear los datos ha finalizado');
+      }
+    },
+    async deleteImage(context, payload) {
+      try {
+        const result = await Vue.axios({
+          method: 'delete',
+          url: payload,
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+        return result;
+      } catch (e) {
+        console.log(e.message);
+        console.log(e.response.data);
+        console.log(e.response.status);
+        console.log(e.response.headers);
+      } finally {
+        console.log('La petición para borrar los datos ha finalizado');
       }
     },
     async postOrder({ state }, payload) {
