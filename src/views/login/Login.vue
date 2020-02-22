@@ -1,30 +1,43 @@
 <template>
-  <section>
-    <div>
-      <div>
-        <div>
-          <div>
-            <div>Introduce el PIN</div>
-            <div>
-              <img src="@/assets/mecanica.png" />
-              <h4>RA BENIDORM</h4>
-              <form @submit.prevent="login">
-                <input
-                  type="password"
-                  placeholder="PIN"
-                  maxlength="4"
-                  required
-                  v-model="pin"
-                />
-                <button type="submit">Acceder</button>
-                <a href="#">0.1.26</a>
+  <div>
+    <!-- <img src="@/assets/mecanica.png" /> -->
+    <section class="hero is-primary is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered">
+            <div class="column is-5-tablet is-4-desktop is-3-widescreen">
+              <form @submit.prevent="login" class="box">
+                <div class="field">
+                  <label for="" class="label">PIN TALLER</label>
+                  <div class="control has-icons-left">
+                    <input
+                      type="password"
+                      placeholder="****"
+                      class="input"
+                      required
+                      maxlength="4"
+                      v-model="pin"
+                    />
+                    <span class="icon is-small is-left">
+                      <i class="fa fa-lock"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="field">
+                  <button class="button is-success" type="submit">
+                    ACCEDER
+                  </button>
+                </div>
+                <div class="field">
+                  <label for="">0.1.27</label>
+                </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
 
 <script>

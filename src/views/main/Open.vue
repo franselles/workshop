@@ -1,26 +1,49 @@
 <template>
   <div>
-    <div>
-      <h3>ABIERTOS</h3>
-    </div>
-    <div>
-      <h3>LISTADO</h3>
+    <nav class="breadcrumb notification is-primary" aria-label="breadcrumbs">
       <ul>
-        <li v-for="order in orders" :key="order._id">
-          {{ order.fault }} - {{ order.license_plate }}
-          <button type="button" @click="goOrder(order)">EDITAR</button>
+        <li>
+          <router-link to="/">
+            <span class="icon">
+              <i class="fas fa-home"></i>
+            </span>
+            SALIR</router-link
+          >
+        </li>
+        <li>
+          DETALLE
         </li>
       </ul>
+    </nav>
+    <div>
+      <table class="table">
+        <tr>
+          <th>MATRICULA</th>
+          <th>AVERIA</th>
+          <th>EDITAR</th>
+        </tr>
+        <tr v-for="order in orders" :key="order._id">
+          <td>{{ order.license_plate }}</td>
+          <td>{{ order.fault }}</td>
+          <td>
+            <button class="button" type="button" @click="goOrder(order)">
+              EDITAR
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
     <div>
-      <h3>FOOT - NUEVO</h3>
-      <router-link :to="{ name: 'detail' }">NUEVO</router-link>
+      <router-link class="button is-primary" :to="{ name: 'detail' }"
+        >NUEVO</router-link
+      >
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapActions, mapMutations } from 'vuex';
+
 export default {
   name: 'Open',
   data() {

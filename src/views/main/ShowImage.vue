@@ -1,13 +1,25 @@
 <template>
   <div>
-    <div>
-      <h3>VISUALIZAR IMAGEN</h3>
-    </div>
+    <nav class="breadcrumb notification is-info" aria-label="breadcrumbs">
+      <ul>
+        <li>
+          <router-link to="/detail">
+            <span class="icon">
+              <i class="fas fa-home"></i>
+            </span>
+            VOLVER</router-link
+          >
+        </li>
+        <li>
+          VISIALIZAR IMAGEN
+        </li>
+      </ul>
+    </nav>
     <div>
       <img :src="url_img.image_url" width="100%" height="auto" />
     </div>
     <div>
-      <button type="button" @click="backDetail">VOLVER</button>
+      <button class="button" type="button" @click="backDetail">VOLVER</button>
     </div>
   </div>
 </template>

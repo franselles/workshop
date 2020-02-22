@@ -1,134 +1,201 @@
 <template>
   <div>
+    <nav class="breadcrumb notification is-info" aria-label="breadcrumbs">
+      <ul>
+        <li>
+          <router-link to="/open">
+            <span class="icon">
+              <i class="fas fa-home"></i>
+            </span>
+            VOLVER</router-link
+          >
+        </li>
+        <li>
+          PARTE DE TRABAJO
+        </li>
+      </ul>
+    </nav>
     <div>
-      <div>
-        <h3>DETALLE</h3>
-      </div>
-      <div>
-        <h3>AVERIA</h3>
-        <form @submit.prevent="onSubmit">
-          <div>
-            <label for="date">FECHA</label>
+      <form @submit.prevent="onSubmit">
+        <div class="field">
+          <label for="date" class="label">FECHA</label>
+          <div class="control">
             <input
               type="date"
               name="date"
               id="date"
               v-model="localOrder.date"
+              class="input"
             />
           </div>
-          <div>
-            <label for="fault">AVERIA</label>
-            <input
-              type="text"
+        </div>
+
+        <div class="field">
+          <label for="fault" class="label">AVERIA</label>
+          <div class="control">
+            <textarea
+              class="textarea"
+              placeholder="Textarea"
               name="fault"
               id="fault"
               v-model="localOrder.fault"
-            />
+            ></textarea>
           </div>
-          <div>
-            <label for="">VEHICULO</label>
-            <select
-              name="vehicle_id"
-              id="vehicle_id"
-              v-model="localOrder.vehicle_id"
-              @change="cambiaSelect($event)"
-            >
-              <option
-                v-for="vehicle in localVehicles"
-                :key="vehicle._id"
-                :value="vehicle._id"
-                >{{ vehicle.matricula }} - {{ vehicle.nombre }}</option
+        </div>
+
+        <div class="field">
+          <label class="label" for="">VEHICULO</label>
+          <div class="control">
+            <div class="select">
+              <select
+                name="vehicle_id"
+                id="vehicle_id"
+                v-model="localOrder.vehicle_id"
+                @change="cambiaSelect($event)"
               >
-            </select>
+                <option
+                  v-for="vehicle in localVehicles"
+                  :key="vehicle._id"
+                  :value="vehicle._id"
+                  >{{ vehicle.matricula }} - {{ vehicle.nombre }}</option
+                >
+              </select>
+            </div>
           </div>
-          <div>
-            <label for="price">PRECIO</label>
+        </div>
+
+        <div class="field">
+          <label for="price" class="label">PRECIO</label>
+          <div class="control">
             <input
+              class="input"
               type="number"
               name="price"
               id="price"
               v-model="localOrder.price"
             />
           </div>
-          <div>
-            <label for="hours">HORAS</label>
+        </div>
+
+        <div class="field">
+          <label class="label" for="hours">HORAS</label>
+          <div class="control">
             <input
+              class="input"
               type="number"
               name="hours"
               id="hours"
               v-model="localOrder.hours"
             />
           </div>
-          <div>
-            <label for="materials">MATERIALES</label>
+        </div>
+
+        <div class="field">
+          <label class="label" for="materials">MATERIALES</label>
+          <div class="control">
             <input
+              class="input"
               type="number"
               name="materials"
               id="materials"
               v-model="localOrder.materials"
             />
           </div>
-          <div>
-            <input
-              type="checkbox"
-              name="closed"
-              id="closed"
-              v-model="localOrder.closed"
-            />TERMINADO
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              name="finished"
-              id="finished"
-              v-model="localOrder.finished"
-            />CERRADO
-          </div>
+        </div>
 
-          <div>
-            <input ref="file" type="file" id="file" @change="onFileChange" />
+        <div class="field">
+          <div class="control">
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                name="closed"
+                id="closed"
+                v-model="localOrder.closed"
+              />TERMINADO
+            </label>
           </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <label class="checkbox">
+              <input
+                type="checkbox"
+                name="finished"
+                id="finished"
+                v-model="localOrder.finished"
+              />CERRADO
+            </label>
+          </div>
+        </div>
 
-          <div>
-            <ul>
-              <li
-                v-for="(image, index) in localOrder.images"
-                :key="image.index"
-              >
-                <div id="preview">
+        <div>
+          <input ref="file" type="file" id="file" @change="onFileChange" />
+        </div>
+
+        <div>
+          <div
+            class="card"
+            v-for="(image, index) in localOrder.images"
+            :key="image.index"
+          >
+            <div class="card-image">
+              <figure class="image is-128x128">
+                <img :src="image.thumb_url" width="180px" height="auto" />
+              </figure>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div class="field is-grouped">
                   <div>
-                    <img
-                      :src="image.thumb_url"
-                      width="180px"
-                      height="auto"
-                      class="thumb"
-                    />
+                    <button
+                      class="button is-danger"
+                      type="button"
+                      @click="deleteLocalImage(image, index)"
+                    >
+                      BORRAR
+                    </button>
                   </div>
                   <div>
-                    {{ image.image_name }}
+                    <button
+                      class="button is-success"
+                      type="button"
+                      @click="showImage(image)"
+                    >
+                      VER
+                    </button>
                   </div>
                 </div>
-                <div>
-                  <button type="button" @click="deleteLocalImage(image, index)">
-                    BORRAR
-                  </button>
-                  <button type="button" @click="showImage(image)">VER</button>
-                </div>
-              </li>
-            </ul>
+              </div>
+            </div>
           </div>
-          <div v-if="waitImage">
-            PROCESANDO LA IMAGEN ESPERA
+        </div>
+        <div class="notification is-warning" v-if="waitImage">
+          PROCESANDO LA IMAGEN ESPERA
+        </div>
+        <div class="field is-grouped">
+          <div>
+            <button
+              class="button is-link is-warning"
+              type="button"
+              @click="clickButton"
+            >
+              CAMERA
+            </button>
           </div>
           <div>
-            <button type="button" @click="clickButton">CAMERA</button>
+            <button class="button is-link" type="submit">ACEPTAR</button>
           </div>
           <div>
-            <button type="submit">ACEPTAR</button>
-            <button type="button" @click="onCancel">CANCELAR</button>
+            <button
+              class="button is-link is-light"
+              type="button"
+              @click="onCancel"
+            >
+              CANCELAR
+            </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -235,18 +302,18 @@ export default {
         // this.postOrder(this.localOrder).then(() => {
         //   this.getOrders(false).then(() => this.$router.go(-1));
         this.postOrder(this.localOrder).then(() => {
-          this.$router.go(-1);
+          this.$router.push({ name: 'open' });
         });
       } else {
         // this.putOrder(this.localOrder).then(() => {
         //   this.getOrders(false).then(() => this.$router.go(-1));
         this.putOrder(this.localOrder).then(() => {
-          this.$router.go(-1);
+          this.$router.push({ name: 'open' });
         });
       }
     },
     onCancel() {
-      this.$router.go(-1);
+      this.$router.push({ name: 'open' });
     },
     deleteLocalImage(data, index) {
       this.localOrder.images.splice(index, 1);
