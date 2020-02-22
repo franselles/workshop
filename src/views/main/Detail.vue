@@ -257,6 +257,8 @@ export default {
         delete_url: null
       };
 
+      this.waitImage = true;
+
       const file = e.target.files[0];
       this.getBase64(file).then(data => {
         this.postImage({ name: file.name, data: data }).then(result => {
@@ -272,7 +274,6 @@ export default {
       });
     },
     clickButton() {
-      this.waitImage = true;
       this.$refs.file.click();
     },
     getBase64(file) {

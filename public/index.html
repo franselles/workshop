@@ -22,12 +22,9 @@
       src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
     ></script>
     <script>
-      window.addEventListener('load', function() {
-        window.history.pushState({}, '');
-      });
-
-      window.addEventListener('popstate', function() {
-        window.history.pushState({}, '');
+      history.pushState(null, document.title, location.href);
+      window.addEventListener('popstate', function(event) {
+        history.pushState(null, document.title, location.href);
       });
     </script>
   </body>
