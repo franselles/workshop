@@ -12,7 +12,7 @@ export default {
       vehicle_id: null,
       vehicle: null,
       license_plate: null,
-      price: null,
+      price: 30,
       hours: null,
       materials: Number,
       closed: false,
@@ -31,7 +31,7 @@ export default {
       state.order.vehicle_id = null;
       state.order.vehicle = null;
       state.order.license_plate = null;
-      state.order.price = null;
+      state.order.price = 30;
       state.order.hours = null;
       state.order.materials = null;
       state.order.closed = false;

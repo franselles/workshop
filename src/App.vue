@@ -6,4 +6,7 @@
 
 <style lang="css">
 @import '../node_modules/bulma/css/bulma.min.css';
+#app {
+  margin: 20px;
+}
 </style>

@@ -111,6 +111,7 @@
                 name="closed"
                 id="closed"
                 v-model="localOrder.closed"
+                disabled
               />TERMINADO
             </label>
           </div>
@@ -123,6 +124,7 @@
                 name="finished"
                 id="finished"
                 v-model="localOrder.finished"
+                disabled
               />CERRADO
             </label>
           </div>
