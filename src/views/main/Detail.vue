@@ -140,31 +140,33 @@
             v-for="(image, index) in localOrder.images"
             :key="image.index"
           >
-            <div class="card-image">
-              <figure class="image is-128x128">
-                <img :src="image.thumb_url" width="180px" height="auto" />
-              </figure>
-            </div>
             <div class="card-content">
-              <div class="content">
-                <div class="field is-grouped">
-                  <div>
-                    <button
-                      class="button is-danger"
-                      type="button"
-                      @click="deleteLocalImage(image, index)"
-                    >
-                      BORRAR
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      class="button is-success"
-                      type="button"
-                      @click="showImage(image)"
-                    >
-                      VER
-                    </button>
+              <div class="media">
+                <div class="media-left">
+                  <figure class="image is-48x48">
+                    <img :src="image.thumb_url" width="128px" height="auto" />
+                  </figure>
+                </div>
+                <div class="media-content">
+                  <div class="field is-grouped">
+                    <div>
+                      <button
+                        class="button is-danger"
+                        type="button"
+                        @click="deleteLocalImage(image, index)"
+                      >
+                        BORRAR
+                      </button>
+                    </div>
+                    <div>
+                      <button
+                        class="button is-success"
+                        type="button"
+                        @click="showImage(image)"
+                      >
+                        VER
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
