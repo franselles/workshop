@@ -29,7 +29,7 @@
                   </button>
                 </div>
                 <div class="field">
-                  <label for="">0.1.30</label>
+                  <label for="">0.1.31</label>
                 </div>
               </form>
             </div>

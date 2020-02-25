@@ -71,6 +71,7 @@
               class="input"
               type="number"
               name="price"
+              step="any"
               id="price"
               v-model="localOrder.price"
             />
@@ -84,6 +85,7 @@
               class="input"
               type="number"
               name="hours"
+              step="any"
               id="hours"
               v-model="localOrder.hours"
             />
@@ -96,6 +98,7 @@
             <input
               class="input"
               type="number"
+              step="any"
               name="materials"
               id="materials"
               v-model="localOrder.materials"
