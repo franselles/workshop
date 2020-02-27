@@ -335,10 +335,6 @@ export default {
     },
     deleteLocalImage(data, index) {
       this.localOrder.images.splice(index, 1);
-      // this.deleteImage(data.delete_url).then(result => {
-      //   console.log(result);
-      //   this.localOrder.images.splice(index, 1);
-      // });
     },
     showImage(data) {
       this.setOrder(this.localOrder);

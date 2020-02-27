@@ -8,6 +8,7 @@ export default {
     order: {
       _id: null,
       order_id: null,
+      year: null,
       date: null,
       fault: null,
       vehicle_id: null,
@@ -28,6 +29,7 @@ export default {
     resetOrder(state) {
       state.order._id = null;
       state.order.order_id = null;
+      state.order.year = null;
       state.order.date = new Date().toISOString().split('T')[0];
       state.order.fault = null;
       state.order.vehicle_id = null;
@@ -46,6 +48,7 @@ export default {
     setOrder(state, payload) {
       state.order._id = payload._id;
       state.order.order_id = payload.order_id;
+      state.order.year = payload.year;
       state.order.date = payload.date;
       state.order.fault = payload.fault;
       state.order.vehicle_id = payload.vehicle_id;
@@ -185,7 +188,6 @@ export default {
           method: 'get',
           url: state.urlApi + `workshop/orders/last/${payload}`
         });
-        console.log(data.order_id);
         return data.order_id || 0;
       } catch (e) {
         console.log('todosError', e.message);
