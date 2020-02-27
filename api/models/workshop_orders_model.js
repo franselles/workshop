@@ -5,6 +5,8 @@ const Schema = mongoose.Schema;
 
 const workshopOrdersSchema = Schema(
   {
+    order_id: Number,
+    year: Number,
     date: String,
     fault: String,
     vehicle_id: String,

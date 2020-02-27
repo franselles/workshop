@@ -7,6 +7,7 @@ export default {
     urlApi: '/api/', // http://localhost:8080/api/    // /api/
     order: {
       _id: null,
+      order_id: null,
       date: null,
       fault: null,
       vehicle_id: null,
@@ -26,7 +27,8 @@ export default {
   mutations: {
     resetOrder(state) {
       state.order._id = null;
-      state.order.date = null;
+      state.order.order_id = null;
+      state.order.date = new Date().toISOString().split('T')[0];
       state.order.fault = null;
       state.order.vehicle_id = null;
       state.order.vehicle = null;
@@ -43,6 +45,7 @@ export default {
     },
     setOrder(state, payload) {
       state.order._id = payload._id;
+      state.order.order_id = payload.order_id;
       state.order.date = payload.date;
       state.order.fault = payload.fault;
       state.order.vehicle_id = payload.vehicle_id;
@@ -167,6 +170,23 @@ export default {
           url: state.urlApi + `workshop/orders/${payload}`
         });
         commit('setOrders', data);
+      } catch (e) {
+        console.log('todosError', e.message);
+        console.log(e.response.data);
+        console.log(e.response.status);
+        console.log(e.response.headers);
+      } finally {
+        console.log('La petición para obtener los daros ha finalizado');
+      }
+    },
+    async getOrdersLast({ state }, payload) {
+      try {
+        const { data } = await Vue.axios({
+          method: 'get',
+          url: state.urlApi + `workshop/orders/last/${payload}`
+        });
+        console.log(data.order_id);
+        return data.order_id || 0;
       } catch (e) {
         console.log('todosError', e.message);
         console.log(e.response.data);

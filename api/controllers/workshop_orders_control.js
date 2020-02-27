@@ -39,6 +39,8 @@ function getWorkshopOrders(req, res) {
 function postWorkshopOrder(req, res) {
   const data = new WorkshopOrdersModel();
 
+  data.order_id = req.body.order_id;
+  data.year = req.body.year;
   data.date = req.body.date;
   data.fault = req.body.fault;
   data.vehicle_id = req.body.vehicle_id;
@@ -88,10 +90,31 @@ function deleteWorkshopOrder(req, res) {
   });
 }
 
+function getWorkshopOrdersLast(req, res) {
+  let year = req.params.year;
+
+  WorkshopOrdersModel.findOne({ year: year })
+    .sort({ order_id: -1 })
+    .limit(1)
+    .exec((err, doc) => {
+      if (err)
+        return res.status(500).send({
+          message: `Error al realizar la petición: ${err}`
+        });
+      if (!doc)
+        return res.status(404).send({
+          message: 'No existe'
+        });
+
+      res.status(200).send(doc);
+    });
+}
+
 module.exports = {
   getWorkshopOrder,
   getWorkshopOrders,
   postWorkshopOrder,
   putWorkshopOrder,
-  deleteWorkshopOrder
+  deleteWorkshopOrder,
+  getWorkshopOrdersLast
 };

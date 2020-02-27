@@ -11,7 +11,7 @@
           >
         </li>
         <li>
-          PARTE DE TRABAJO
+          PARTE DE TRABAJO - {{ localOrder.year }} - {{ localOrder.order_id }}
         </li>
       </ul>
     </nav>
@@ -114,7 +114,6 @@
                 name="closed"
                 id="closed"
                 v-model="localOrder.closed"
-                disabled
               />TERMINADO
             </label>
           </div>
@@ -127,6 +126,7 @@
                 name="finished"
                 id="finished"
                 v-model="localOrder.finished"
+                style="display: none"
                 disabled
               />CERRADO
             </label>
@@ -216,6 +216,8 @@ export default {
     return {
       localOrder: {
         _id: null,
+        order_id: null,
+        year: null,
         date: null,
         fault: null,
         vehicle_id: null,
@@ -249,7 +251,8 @@ export default {
       'postOrder',
       'putOrder',
       'getOrders',
-      'deleteImage'
+      'deleteImage',
+      'getOrdersLast'
     ]),
     ...mapMutations('workshopStore', ['setOrder', 'setCurrentImage']),
     onFileChange(e) {
@@ -309,8 +312,15 @@ export default {
       if (this.localOrder._id == null) {
         // this.postOrder(this.localOrder).then(() => {
         //   this.getOrders(false).then(() => this.$router.go(-1));
-        this.postOrder(this.localOrder).then(() => {
-          this.$router.push({ name: 'open' });
+
+        let y = new Date();
+        this.localOrder.year = y.getFullYear();
+        this.getOrdersLast(this.localOrder.year).then(result => {
+          let next = result + 1;
+          this.localOrder.order_id = next;
+          this.postOrder(this.localOrder).then(() => {
+            this.$router.push({ name: 'open' });
+          });
         });
       } else {
         // this.putOrder(this.localOrder).then(() => {
@@ -331,7 +341,6 @@ export default {
       // });
     },
     showImage(data) {
-      console.log(data);
       this.setOrder(this.localOrder);
       this.setCurrentImage(data);
       this.$router.push({ name: 'showimage' });
