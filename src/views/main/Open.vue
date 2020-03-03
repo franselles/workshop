@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
     <nav class="breadcrumb notification is-primary" aria-label="breadcrumbs">
       <ul>
         <li>
@@ -38,7 +38,7 @@
         >NUEVO</router-link
       >
     </div>
-  </div>
+  </section>
 </template>
 
 <script>

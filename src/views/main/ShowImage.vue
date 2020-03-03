@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
     <nav class="breadcrumb notification is-info" aria-label="breadcrumbs">
       <ul>
         <li>
@@ -21,7 +21,7 @@
     <div>
       <button class="button" type="button" @click="backDetail">VOLVER</button>
     </div>
-  </div>
+  </section>
 </template>
 
 <script>
