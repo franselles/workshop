@@ -127,7 +127,6 @@
                 id="finished"
                 v-model="localOrder.finished"
                 style="display: none"
-                disabled
               />CERRADO
             </label>
           </div>
